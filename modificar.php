@@ -32,7 +32,7 @@ echo '</script>';
 ?>
 	</head>
 	<body>
-	<h1>Agregar Empleados</h1>
+	<h1>Modificar Empleados</h1>
 		<section>
 		<form method="POST"
  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
@@ -50,7 +50,7 @@ echo '</script>';
 		<label>Fecha de nacimiento</label><input type="date" name="fecha_nac">
 		<br>
 		<br>
-		<input type="submit" value="Agregar Empleado">
+		<input type="submit" value="Modificar Empleado">
 		</form>
 		</section>
 	</body>
