@@ -4,31 +4,108 @@
 	<link rel="stylesheet" type="text/css" href="main.css">
 	<?php 
 
+$msg="";
+$aproved=1;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $error="";
-
+if(empty($_POST["id"])) {
+$msg.="El campo id no puede estar vacio";
+$aproved=0;
+}//fin del if
+else{
+	if(is_numeric($_POST["id"])==false){
+		
+		$msg.="El campo id solo puede tener letras";
+		$aproved=0;
+	}//fin del if
+}//fin del else
 if(empty($_POST["nombre"])) {
-$error="El campo nombre no puede estar vacio";
+$msg.="El campo nombre no puede estar vacio";
+$aproved=0;
 }//fin del if
 if(empty($_POST["apellido"])) {
-$error="El campo apellido no puede estar vacio";
+$msg.="El campo apellido no puede estar vacio";
+$aproved=0;
+}//fin del if
+if(empty($_POST["genero"])) {
+$msg.="El campo genero no puede estar vacio";
+$aproved=0;
+}//fin del if
+$tmp=$_POST["genero"];
+if(empty($tmp)==false&&($tmp!='F'&&$tmp!='M')){
+$msg.="El campo genero solo puede tener contenr el caracter F o M ";
+$aproved=0;
 }//fin del if
 
-
-if($error=="") {
-//conectar a la base de datos
-$con=mysqli_connect("localhost","root","password","employees");
-$query = "SELECT * FROM employees";
-
+if(empty($_POST["fecha_nac"])) {
+$msg.="El campo fecha de nacimiento no puede estar vacio";
+$aproved=0;
 }//fin del if
-else {
-echo '<script language="javascript">';
-echo 'alert("Algun campo esta vacio")';
-echo '</script>';
+else{
+
+if (strpos($_POST["fecha_nac"],'/') == false) {
+    $msg.="El campo fecha de nacimiento no tiene un formato invalido";
+    $aproved=0;
+}//fin del if
+else{
+$arr=explode("/",$_POST["fecha_nac"]);
+if(sizeof($arr)!=3){
+ $msg.="El campo fecha de nacimiento no tiene un formato invalido";
+    $aproved=0;
+}//fin del if
+else{
+	
+	for($x=0;$x<count($arr);++$x) { 
+	if(is_numeric($arr[$x])==false){		
+ $msg.="El campo fecha de nacimiento no tiene un formato invalido";
+    $aproved=0;
+	break;
+	}//fin del if
+	}//fin del for
+}//fin del else
+}//else of the slash
+
 
 }//fin del else
 
+if(empty($_POST["fecha_contra"])) {
+$msg.="El campo fecha de contratación no puede estar vacio";
+$aproved=0;
 }//fin del if
+else{
+
+if (strpos($_POST["fecha_contra"],'/') == false) {
+    $msg.="El campo fecha de contratación no tiene un formato invalido";
+    $aproved=0;
+}//fin del if
+else{
+$arr=explode("/",$_POST["fecha_contra"]);
+if(sizeof($arr)!=3){
+ $msg.="El campo fecha de contratación no tiene un formato invalido";
+    $aproved=0;
+}//fin del if
+else{
+	
+	for($x=0;$x<count($arr);++$x) { 
+	if(is_numeric($arr[$x])==false){		
+ $msg.="El campo fecha de contratación no tiene un formato invalido";
+    $aproved=0;
+	break;
+	}//fin del if
+	}//fin del for
+}//fin del else
+}//else of the slash
+
+
+}//fin del else
+
+if($msg!=""){
+echo '<script type="text/javascript">alert("' . $msg . '"); </script>';
+}
+else{
+//establish conection with database
+}//fin del else
+}
 ?>
 	</head>
 	<body>
@@ -45,9 +122,9 @@ echo '</script>';
 		<br>
 		<label>Genero F/M</label><input type="text" name="genero">
 		<br>
-		<label>Fecha de contratación</label><input type="date" name="fecha_contra">
+		<label>Fecha de contratación(yyyy/mm/dd)</label><input type="text" name="fecha_contra">
 		<br>
-		<label>Fecha de nacimiento</label><input type="date" name="fecha_nac">
+		<label>Fecha de nacimiento(yyyy/mm/dd)</label><input type="text" name="fecha_nac">
 		<br>
 		<br>
 		<input type="submit" value="Agregar Empleado">

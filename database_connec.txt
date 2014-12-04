@@ -1,0 +1,20 @@
+<?php
+        $conn=mysqli_connect("localhost", "denissec", "denisseprogra4","employees");
+
+        $emp_no=$_POST["emp_no"];
+        $birth_date=$_POST["birth_date"];
+        $first_name=$_POST["first_name"];
+        $last_name=$_POST["last_name"];
+        $gender=$_POST["gender"];
+        $hire_date=$_POST["hire_date"];
+        $valores;
+
+
+        $query = "INSERT INTO employees (emp_no, birth_date, first_name, last_name, gender, hire_date)
+                  VALUES ($emp_no, '$birth_date', '$first_name', '$last_name', '$gender', '$hire_date')";
+
+        if(mysqli_query($conn,$query)){
+                echo "Se ha insertado el empleado correctamente";
+        }else{
+                echo "ERROR! El id de empleado ya existe";
+        }
